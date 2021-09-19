@@ -3,6 +3,8 @@ import { ProductsService } from '../../services/products.service';
 import { Product } from '../../models/product';
 import { ActivatedRoute } from '@angular/router';
 import { ProductItemComponent } from '../product-item/product-item.component';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-item-detail',
@@ -10,9 +12,9 @@ import { ProductItemComponent } from '../product-item/product-item.component';
   styleUrls: ['./product-item-detail.component.css'],
 })
 export class ProductItemDetailComponent implements OnInit {
-  //products: Product[] = [];
+  products: Observable<Product[]> | undefined;
 
-  product: Product[] = [];
+  product: Observable<any> | undefined;
 
   constructor(
     private productsService: ProductsService,
@@ -26,15 +28,11 @@ export class ProductItemDetailComponent implements OnInit {
 
     console.log(cap1stLetter);
 
-    this.productsService.getProducts().subscribe((res) => {
-      const products = res;
+    this.products = this.productsService.getProducts();
 
-      this.product = products.filter((item) => {
-        console.log(item.name);
-        return item.name === cap1stLetter;
-      });
-
-      console.log(this.product);
-    });
+    this.product = this.products.pipe(
+      map((products) => products.filter((item) => item.name === cap1stLetter))
+    );
+    console.log(this.product);
   }
 }
