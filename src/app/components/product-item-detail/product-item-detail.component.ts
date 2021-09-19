@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ProductsService } from '../../services/products.service';
 import { Product } from '../../models/product';
 import { ActivatedRoute } from '@angular/router';
-import { ProductItemComponent } from '../product-item/product-item.component';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -28,11 +27,12 @@ export class ProductItemDetailComponent implements OnInit {
 
     console.log(cap1stLetter);
 
-    this.products = this.productsService.getProducts();
+    this.product = this.productsService
+      .getProducts()
+      .pipe(
+        map((products) => products.filter((item) => item.name === cap1stLetter))
+      );
 
-    this.product = this.products.pipe(
-      map((products) => products.filter((item) => item.name === cap1stLetter))
-    );
     console.log(this.product);
   }
 }
