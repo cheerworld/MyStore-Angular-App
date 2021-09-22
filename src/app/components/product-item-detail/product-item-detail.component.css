@@ -18,8 +18,13 @@ img {
 .detail-item {
   margin-left: 128px;
   margin-right: 128px;
+  display: flex;
+  flex-direction: column;
 }
 
 .back-link {
   margin-top: 8px;
+  display: flex;
+  align-items: center;
 }
+

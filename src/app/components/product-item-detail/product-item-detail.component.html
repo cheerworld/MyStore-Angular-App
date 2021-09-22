@@ -1,4 +1,18 @@
-<div *ngIf="product !== undefined" class="detail-container">
-    <img *ngIf="product !== undefined" src="{{ (product | async)[0]?.url }}">
-    <p>{{ (product | async)[0].name }}</p>
+<div *ngIf="product" class="detail-container">
+  <img src="{{ product.url }}">
+  <div class="detail-item">
+    <p>{{ product.name }}</p>
+    <p>{{ product.price }}</p>
+    <p>{{ product.description }}</p>
+    <select class="select-input">
+      <option *ngFor="let option of options">{{option}}</option>
+    </select>
+    <button>Add to Cart</button>
+    <div class="back-link"  (click)="backToList()">
+      <mat-icon><span class="material-icons-outlined">
+          west
+        </span></mat-icon>
+      <p>Back to Product List</p>
+    </div>
+  </div>
 </div>

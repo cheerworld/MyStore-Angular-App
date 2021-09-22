@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProductsService } from '../../services/products.service';
 import { Product } from '../../models/product';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-item-detail',
@@ -11,13 +11,17 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./product-item-detail.component.css'],
 })
 export class ProductItemDetailComponent implements OnInit {
-  products: Observable<Product[]> | undefined;
+  product!: Product;
 
-  product: Observable<any> | undefined;
+  public options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
+  backToList = () => {
+    this.router.navigateByUrl('/');
+  };
   constructor(
     private productsService: ProductsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -27,12 +31,13 @@ export class ProductItemDetailComponent implements OnInit {
 
     console.log(cap1stLetter);
 
-    this.product = this.productsService
+    const promise = this.productsService
       .getProducts()
       .pipe(
         map((products) => products.filter((item) => item.name === cap1stLetter))
-      );
+      )
+      .toPromise();
 
-    console.log(this.product);
+    promise.then((data) => (this.product = data[0]));
   }
 }
