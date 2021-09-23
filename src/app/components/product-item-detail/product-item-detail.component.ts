@@ -4,6 +4,7 @@ import { Product } from '../../models/product';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-item-detail',
@@ -13,6 +14,8 @@ import { Router } from '@angular/router';
 export class ProductItemDetailComponent implements OnInit {
   product!: Product;
 
+  select = false;
+
   public options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   backToList = () => {
@@ -21,7 +24,8 @@ export class ProductItemDetailComponent implements OnInit {
   constructor(
     private productsService: ProductsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -31,13 +35,25 @@ export class ProductItemDetailComponent implements OnInit {
 
     console.log(cap1stLetter);
 
-    const promise = this.productsService
-      .getProducts()
-      .pipe(
-        map((products) => products.filter((item) => item.name === cap1stLetter))
-      )
-      .toPromise();
+    const productInCart = this.cartService.productListInCart.filter(
+      (p) => p.name === cap1stLetter
+    );
+    console.log(productInCart);
+    if (productInCart.length === 1) {
+      this.product = productInCart[0];
+      this.select = true;
+      console.log(this.product);
+    } else {
+      const promise = this.productsService
+        .getProducts()
+        .pipe(
+          map((products) =>
+            products.filter((item) => item.name === cap1stLetter)
+          )
+        )
+        .toPromise();
 
-    promise.then((data) => (this.product = data[0]));
+      promise.then((data) => (this.product = data[0]));
+    }
   }
 }

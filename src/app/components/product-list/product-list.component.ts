@@ -22,4 +22,12 @@ export class ProductListComponent implements OnInit {
       console.log(res);
     });
   }
+
+  addQuantityToProduct(product: Product) {
+    for (let i = 0; i < this.products.length; i++) {
+      if (this.products[i].id === product.id) {
+        this.products[i] = product;
+      }
+    }
+  }
 }

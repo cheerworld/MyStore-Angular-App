@@ -4,7 +4,11 @@
     <p>{{ product.name }}</p>
     <p>{{ product.price }}</p>
     <p>{{ product.description }}</p>
-    <select class="select-input">
+    <select *ngIf="select" class="select-input">
+      <option selected>{{product.quantity}}</option>
+      <option *ngFor="let option of options">{{option}}</option>
+    </select>
+    <select *ngIf="!select" class="select-input">
       <option *ngFor="let option of options">{{option}}</option>
     </select>
     <button>Add to Cart</button>
