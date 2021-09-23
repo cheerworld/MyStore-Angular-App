@@ -2,8 +2,8 @@
     <img src="{{ product.url }}" class="product-image" (click)="onClickChange()">
     <p>{{ product.name }}</p>
     <p>{{ product.price }}</p>
-    <select class="select-input">
+    <select class="select-input" [(ngModel)]="selectedOption">
       <option *ngFor="let option of options">{{option}}</option>
     </select>
-    <button>Add to Cart</button>
+    <button (click)="addToCart(product)">Add to Cart</button>
 </div>

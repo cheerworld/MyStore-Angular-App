@@ -16,7 +16,7 @@ export class ProductListComponent implements OnInit {
     this.productsService.getProducts().subscribe((res) => {
       for (let i = 0; i < res.length; i++) {
         const product = res[i];
-        product['quantity'] = 1;
+        product['quantity'] = 0;
       }
       this.products = res;
       console.log(res);
