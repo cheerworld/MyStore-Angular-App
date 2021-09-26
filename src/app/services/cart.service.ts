@@ -45,13 +45,12 @@ export class CartService {
 
       return afterDeleteInCart;
     } else {
-      const findProduct: Product[] = this.productListInCart.filter(
-        (p) => p.id === product.id
-      );
-      findProduct[0]['quantity'] = parseInt(quantity as unknown as string);
-      this.productListInCart = this.productListInCart
-        .filter((p) => p.id !== product.id)
-        .concat(findProduct);
+      this.productListInCart = this.productListInCart.map((p) => {
+        if (p.id === product.id) {
+          p['quantity'] = parseInt(quantity as unknown as string);
+        }
+        return p;
+      });
       console.log(this.productListInCart);
       return this.productListInCart;
     }

@@ -8,6 +8,12 @@ import { Product } from '../../models/product';
   styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
+  fullName: string = '';
+
+  address: string = '';
+
+  creditCardNumber: string = '';
+
   products: Product[] = [];
 
   empty: boolean = true;
@@ -20,13 +26,11 @@ export class CartComponent implements OnInit {
     console.log(e);
     console.log(e.target.value);
     console.log(product);
-    if (e.target.value <= 0) {
-      this.products = this.products.filter((p) => p.id !== product.id);
-      if (this.products.length === 0) {
-        this.empty = true;
-      }
-    }
-    this.cartService.changeInCart(e.target.value, product);
+    this.products = this.cartService.changeInCart(e.target.value, product);
+    this.total = this.products.reduce((pre, curr) => {
+      const currNum = curr.price * parseInt(curr.quantity as unknown as string);
+      return pre + currNum;
+    }, 0);
   };
 
   constructor(private cartService: CartService) {}
@@ -34,8 +38,31 @@ export class CartComponent implements OnInit {
   ngOnInit(): void {
     this.products = this.cartService.getProductsInCart();
     console.log(this.products);
+
     if (this.products.length !== 0) {
       this.empty = false;
+      this.total = this.products.reduce((pre, curr) => {
+        const currNum =
+          curr.price * parseInt(curr.quantity as unknown as string);
+        return pre + currNum;
+      }, 0);
+
+      console.log(this.total);
     }
   }
+
+  submitForm = () => {
+    const paymentInfo = {
+      fullName: this.fullName,
+      address: this.address,
+      creditCardNumber: this.creditCardNumber,
+      total: this.total,
+    };
+
+    console.log(paymentInfo);
+    this.fullName = '';
+    this.address = '';
+    this.creditCardNumber = '';
+    this.total = 0;
+  };
 }
