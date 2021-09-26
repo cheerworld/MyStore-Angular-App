@@ -13,14 +13,10 @@ import { CartService } from '../../services/cart.service';
 })
 export class ProductItemDetailComponent implements OnInit {
   product!: Product;
-
-  select = false;
+  public selectedOption: number = 1;
 
   public options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-  backToList = () => {
-    this.router.navigateByUrl('/');
-  };
   constructor(
     private productsService: ProductsService,
     private route: ActivatedRoute,
@@ -39,21 +35,19 @@ export class ProductItemDetailComponent implements OnInit {
       (p) => p.name === cap1stLetter
     );
     console.log(productInCart);
-    if (productInCart.length === 1) {
-      this.product = productInCart[0];
-      this.select = true;
-      console.log(this.product);
-    } else {
-      const promise = this.productsService
-        .getProducts()
-        .pipe(
-          map((products) =>
-            products.filter((item) => item.name === cap1stLetter)
-          )
-        )
-        .toPromise();
 
-      promise.then((data) => (this.product = data[0]));
-    }
+    const promise = this.productsService
+      .getProducts()
+      .pipe(
+        map((products) => products.filter((item) => item.name === cap1stLetter))
+      )
+      .toPromise();
+
+    promise.then((data) => (this.product = data[0]));
+  }
+
+  public addToCart(product: Product) {
+    this.cartService.addToCart(this.selectedOption, product);
+    alert('Added to Cart!');
   }
 }
