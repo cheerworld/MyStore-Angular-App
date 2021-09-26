@@ -16,7 +16,7 @@ export class ProductItemComponent implements OnInit {
   public options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   public onClickChange = () => {
-    this.router.navigateByUrl(`/${this.product.name}`);
+    this.router.navigateByUrl(`/product/${this.product.name}`);
   };
 
   public addToCart(product: Product) {
