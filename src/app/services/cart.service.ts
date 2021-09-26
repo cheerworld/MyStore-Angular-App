@@ -38,9 +38,28 @@ export class CartService {
     }
   }
 
-  deleteProduct(name: string) {
+  changeInCart(quantity: number, product: Product) {
+    if (quantity <= 0) {
+      const afterDeleteInCart = this.deleteProduct(product.id);
+      console.log(afterDeleteInCart);
+
+      return afterDeleteInCart;
+    } else {
+      const findProduct: Product[] = this.productListInCart.filter(
+        (p) => p.id === product.id
+      );
+      findProduct[0]['quantity'] = parseInt(quantity as unknown as string);
+      this.productListInCart = this.productListInCart
+        .filter((p) => p.id !== product.id)
+        .concat(findProduct);
+      console.log(this.productListInCart);
+      return this.productListInCart;
+    }
+  }
+
+  deleteProduct(id: number) {
     this.productListInCart = this.productListInCart.filter(
-      (item) => item.name !== name
+      (item) => item.id !== id
     );
     return this.productListInCart;
   }
