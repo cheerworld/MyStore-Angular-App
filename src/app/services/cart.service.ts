@@ -38,7 +38,7 @@ export class CartService {
   changeInCart(quantity: number, product: Product) {
     if (quantity <= 0) {
       const afterDeleteInCart = this.deleteProduct(product.id);
-
+      alert(`Remove product from cart!`);
       return afterDeleteInCart;
     } else {
       this.productListInCart = this.productListInCart.map((p) => {

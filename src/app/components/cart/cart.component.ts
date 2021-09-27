@@ -30,6 +30,9 @@ export class CartComponent implements OnInit {
       const currNum = curr.price * parseInt(curr.quantity as unknown as string);
       return pre + currNum;
     }, 0);
+    if (this.total === 0) {
+      this.empty = true;
+    }
   };
 
   constructor(
