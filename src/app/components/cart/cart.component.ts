@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { Product } from '../../models/product';
+import { Router } from '@angular/router';
+import { ConfirmationService } from '../../services/confirmation.service';
 
 @Component({
   selector: 'app-cart',
@@ -33,7 +35,11 @@ export class CartComponent implements OnInit {
     }, 0);
   };
 
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private router: Router,
+    private confirmationService: ConfirmationService
+  ) {}
 
   ngOnInit(): void {
     this.products = this.cartService.getProductsInCart();
@@ -60,9 +66,15 @@ export class CartComponent implements OnInit {
     };
 
     console.log(paymentInfo);
+
+    this.confirmationService.addConfirmation(paymentInfo);
+
     this.fullName = '';
     this.address = '';
     this.creditCardNumber = '';
     this.total = 0;
+
+    this.cartService.clearCart();
+    this.router.navigateByUrl('/confirmation');
   };
 }

@@ -62,4 +62,9 @@ export class CartService {
     );
     return this.productListInCart;
   }
+
+  clearCart() {
+    this.productListInCart = [];
+    return this.productListInCart;
+  }
 }
