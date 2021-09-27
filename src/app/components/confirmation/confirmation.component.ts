@@ -24,6 +24,5 @@ export class ConfirmationComponent implements OnInit {
     if (this.paymentInfo.fullName !== '') {
       this.showErrorMsg = false;
     }
-    console.log(this.paymentInfo);
   }
 }

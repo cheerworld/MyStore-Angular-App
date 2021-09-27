@@ -7,7 +7,7 @@
       <p>{{ product.name }}</p>
       <p>${{ product.price }}</p>
       <label>Amount:</label>
-      <input class="number-input " type="number" max="100" value="{{ product.quantity }}" (change)="onChange($event, product)">
+      <input class="number-input " type="number" max="100" ngModel="{{product.quantity}}" (ngModelChange)="onChange($event, product)">
     </div>
   </div>
   <h3>Total: {{ total }}</h3>

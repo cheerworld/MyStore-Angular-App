@@ -26,14 +26,11 @@ export class CartService {
       this.productListInCart = this.productListInCart
         .filter((p) => p.id !== product.id)
         .concat(checkProductExist);
-      console.log(checkProductExist);
-      console.log(this.productListInCart);
       return this.productListInCart;
     } else {
       const quantityToInt = parseInt(quantity as unknown as string);
       product['quantity'] = quantityToInt;
       this.productListInCart.push(product);
-      console.log('productListInCart:', this.productListInCart);
       return this.productListInCart;
     }
   }
@@ -41,7 +38,6 @@ export class CartService {
   changeInCart(quantity: number, product: Product) {
     if (quantity <= 0) {
       const afterDeleteInCart = this.deleteProduct(product.id);
-      console.log(afterDeleteInCart);
 
       return afterDeleteInCart;
     } else {
@@ -51,7 +47,6 @@ export class CartService {
         }
         return p;
       });
-      console.log(this.productListInCart);
       return this.productListInCart;
     }
   }

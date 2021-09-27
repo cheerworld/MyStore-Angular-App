@@ -25,10 +25,7 @@ export class CartComponent implements OnInit {
   quantityValue: number = 0;
 
   onChange = (e: any, product: Product) => {
-    console.log(e);
-    console.log(e.target.value);
-    console.log(product);
-    this.products = this.cartService.changeInCart(e.target.value, product);
+    this.products = this.cartService.changeInCart(e, product);
     this.total = this.products.reduce((pre, curr) => {
       const currNum = curr.price * parseInt(curr.quantity as unknown as string);
       return pre + currNum;
@@ -43,7 +40,6 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     this.products = this.cartService.getProductsInCart();
-    console.log(this.products);
 
     if (this.products.length !== 0) {
       this.empty = false;
@@ -52,8 +48,6 @@ export class CartComponent implements OnInit {
           curr.price * parseInt(curr.quantity as unknown as string);
         return pre + currNum;
       }, 0);
-
-      console.log(this.total);
     }
   }
 
@@ -64,8 +58,6 @@ export class CartComponent implements OnInit {
       creditCardNumber: this.creditCardNumber,
       total: this.total,
     };
-
-    console.log(paymentInfo);
 
     this.confirmationService.addConfirmation(paymentInfo);
 

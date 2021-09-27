@@ -3,7 +3,6 @@ import { ProductsService } from '../../services/products.service';
 import { Product } from '../../models/product';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { Router } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 
 @Component({
@@ -20,7 +19,6 @@ export class ProductItemDetailComponent implements OnInit {
   constructor(
     private productsService: ProductsService,
     private route: ActivatedRoute,
-    private router: Router,
     private cartService: CartService
   ) {}
 
@@ -29,12 +27,7 @@ export class ProductItemDetailComponent implements OnInit {
 
     let cap1stLetter = name.charAt(0).toUpperCase() + name.slice(1);
 
-    console.log(cap1stLetter);
-
-    const productInCart = this.cartService.productListInCart.filter(
-      (p) => p.name === cap1stLetter
-    );
-    console.log(productInCart);
+    this.cartService.productListInCart.filter((p) => p.name === cap1stLetter);
 
     const promise = this.productsService
       .getProducts()
